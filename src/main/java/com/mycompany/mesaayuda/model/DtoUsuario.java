@@ -6,7 +6,22 @@ package com.mycompany.mesaayuda.model;
  */
 public class DtoUsuario {
    String nombre;
+   int id;
+   private int idRol;
 
+  
+   public int getId() {
+        return id;
+    }
+   
+   public int getIdRol() {
+    return idRol;
+    }
+
+    public void setIdRol(int idRol) {
+    this.idRol = idRol;
+    }
+   
     public String getNombre() {
         return nombre;
     }
@@ -29,6 +44,10 @@ public class DtoUsuario {
 
     public void setUsuario(String Usuario) {
         this.Usuario = Usuario;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

@@ -1,5 +1,10 @@
 package Ventanas;
 
+import com.mycompany.mesaayuda.model.SessionUsuario;
+import com.mycompany.mesaayuda.model.Ticket;
+import com.mycompany.mesaayuda.servicios.DaoUsuario;
+import com.mycompany.mesaayuda.servicios.TicketDAO;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,6 +19,14 @@ public class RegistroIncidencias extends javax.swing.JFrame {
 
     public RegistroIncidencias() {          
         initComponents();
+        
+        DaoUsuario dao = new DaoUsuario();
+        
+        Nombretxt.setText(SessionUsuario.getNombreUsuario());
+        
+        String nombreRol = dao.obtenerNombreRol(SessionUsuario.getIdRol());
+        roltxt.setText(nombreRol != null ? nombreRol : "Sin rol asignado");
+        
         String[] encabezadosTabla = new String[]{"Folio", "Departamento", "Prioridad", "Status"};
         modeloTabla.setColumnIdentifiers(encabezadosTabla);
         TablaTickets.setModel(modeloTabla);
@@ -62,9 +75,9 @@ public class RegistroIncidencias extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaTickets = new javax.swing.JTable();
         SeguimientoButton = new javax.swing.JButton();
+        Nombretxt = new javax.swing.JTextField();
+        roltxt = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,7 +96,7 @@ public class RegistroIncidencias extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,7 +137,12 @@ public class RegistroIncidencias extends javax.swing.JFrame {
             }
         });
 
+        Nombretxt.setEditable(false);
+
+        roltxt.setEditable(false);
+
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/4781818_account_avatar_face_man_people_icon.png"))); // NOI18N
+        jButton1.setBorderPainted(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -132,44 +150,45 @@ public class RegistroIncidencias extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jButton1)
+                .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(9, Short.MAX_VALUE))
+                    .addComponent(Nombretxt, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(SeguimientoButton)
-                        .addGap(253, 253, 253))
+                        .addGap(249, 249, 249))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(TicketButton)
-                        .addGap(27, 27, 27))))
+                        .addGap(47, 47, 47))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1)
+                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Nombretxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(roltxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(SeguimientoButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(TicketButton)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -185,7 +204,25 @@ public class RegistroIncidencias extends javax.swing.JFrame {
     }//GEN-LAST:event_TicketButtonActionPerformed
 
     private void SeguimientoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeguimientoButtonActionPerformed
-        // TODO add your handling code here:
+    int fila = TablaTickets.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Selecciona un ticket primero.");
+        return;
+    }
+
+    String folio = TablaTickets.getValueAt(fila, 0).toString(); // columna 0 = folio
+
+    TicketDAO dao = new TicketDAO();
+    Ticket ticket = dao.obtenerTicketConEstado(folio);
+
+    if (ticket != null) {
+        Seguimiento ventana = new Seguimiento(ticket);
+        ventana.setLocationRelativeTo(this);
+        ventana.setVisible(true);
+        this.dispose();
+    } else {
+        JOptionPane.showMessageDialog(this, "No se encontró el ticket con folio: " + folio);
+    }
     }//GEN-LAST:event_SeguimientoButtonActionPerformed
 
     /**
@@ -214,6 +251,7 @@ public class RegistroIncidencias extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Nombretxt;
     private javax.swing.JButton SeguimientoButton;
     private javax.swing.JTable TablaTickets;
     private javax.swing.JButton TicketButton;
@@ -222,7 +260,6 @@ public class RegistroIncidencias extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField roltxt;
     // End of variables declaration//GEN-END:variables
 }

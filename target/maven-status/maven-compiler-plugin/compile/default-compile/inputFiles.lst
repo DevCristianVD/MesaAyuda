@@ -4,11 +4,13 @@ C:\Users\demo_\OneDrive\Documentos\NetBeansProjects\MesaAyuda\src\main\java\com\
 C:\Users\demo_\OneDrive\Documentos\NetBeansProjects\MesaAyuda\src\main\java\com\mycompany\mesaayuda\model\MySqlConexion.java
 C:\Users\demo_\OneDrive\Documentos\NetBeansProjects\MesaAyuda\src\main\java\com\mycompany\mesaayuda\model\SessionUsuario.java
 C:\Users\demo_\OneDrive\Documentos\NetBeansProjects\MesaAyuda\src\main\java\com\mycompany\mesaayuda\model\SQLExcepcion.java
+C:\Users\demo_\OneDrive\Documentos\NetBeansProjects\MesaAyuda\src\main\java\com\mycompany\mesaayuda\model\Ticket.java
 C:\Users\demo_\OneDrive\Documentos\NetBeansProjects\MesaAyuda\src\main\java\com\mycompany\mesaayuda\servicios\DaoUsuario.java
 C:\Users\demo_\OneDrive\Documentos\NetBeansProjects\MesaAyuda\src\main\java\com\mycompany\mesaayuda\servicios\DepartamentoDAO.java
 C:\Users\demo_\OneDrive\Documentos\NetBeansProjects\MesaAyuda\src\main\java\com\mycompany\mesaayuda\servicios\PrioridadDAO.java
 C:\Users\demo_\OneDrive\Documentos\NetBeansProjects\MesaAyuda\src\main\java\com\mycompany\mesaayuda\servicios\TicketDAO.java
 C:\Users\demo_\OneDrive\Documentos\NetBeansProjects\MesaAyuda\src\main\java\Ventanas\AbrirTicket.java
+C:\Users\demo_\OneDrive\Documentos\NetBeansProjects\MesaAyuda\src\main\java\Ventanas\Historial.java
 C:\Users\demo_\OneDrive\Documentos\NetBeansProjects\MesaAyuda\src\main\java\Ventanas\Login.java
 C:\Users\demo_\OneDrive\Documentos\NetBeansProjects\MesaAyuda\src\main\java\Ventanas\RegistroIncidencias.java
 C:\Users\demo_\OneDrive\Documentos\NetBeansProjects\MesaAyuda\src\main\java\Ventanas\Seguimiento.java

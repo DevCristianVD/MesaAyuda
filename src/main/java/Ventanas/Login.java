@@ -1,6 +1,5 @@
 package Ventanas;
 
-import com.mycompany.mesaayuda.model.DtoUsuario;
 import com.mycompany.mesaayuda.model.SessionUsuario;
 import com.mycompany.mesaayuda.servicios.DaoUsuario;
 import javax.swing.JOptionPane;
@@ -130,21 +129,25 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LogbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogbuttonActionPerformed
-    String usuario = usuariotxt.getText();
+     String usuario = usuariotxt.getText();
     String password = new String(passwordtxt.getPassword());
 
     var dao = new DaoUsuario();
     var usuarioObj = dao.login(usuario, password);
 
     if (usuarioObj != null) {
+        // Guardar datos en la sesión
+        SessionUsuario.iniciarSesion(usuarioObj.getId(), usuarioObj.getNombre(), usuarioObj.getIdRol());
+
         JOptionPane.showMessageDialog(this, "Bienvenido " + usuarioObj.getNombre());
         this.dispose();
+
         RegistroIncidencias RI = new RegistroIncidencias();
         RI.setLocationRelativeTo(this);
         RI.setVisible(true);
     } else {
-            JOptionPane.showMessageDialog(this, "Usuario inválido", "Error", JOptionPane.ERROR_MESSAGE);
-           }
+        JOptionPane.showMessageDialog(this, "Usuario inválido", "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_LogbuttonActionPerformed
 
     /**

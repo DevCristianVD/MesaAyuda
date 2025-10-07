@@ -12,7 +12,7 @@ public class DaoUsuario {
     
     public DtoUsuario login(String usuario, String pass){
         DtoUsuario dtoUsuario = null;
-        var sql = "SELECT nombre, apellido_paterno, usuario FROM tb_usuario WHERE usuario=? AND password_usuario = aes_encrypt(?,?)";
+        var sql = "SELECT nombre, apellido_paterno, usuario, id_rol FROM tb_usuario WHERE usuario=? AND password_usuario = aes_encrypt(?,?)";
         
         try(Connection db = MySqlConexion.getConexion();
                 PreparedStatement ps = db.prepareStatement(sql)){
@@ -27,7 +27,7 @@ public class DaoUsuario {
                 dtoUsuario.setNombre(rs.getString("nombre"));
                 dtoUsuario.setApellidoPaterno(rs.getString ("apellido_paterno"));
                 dtoUsuario.setUsuario(rs.getString("usuario"));               
-                
+                dtoUsuario.setIdRol(rs.getInt("id_rol"));
             }
             }
             
@@ -37,6 +37,30 @@ public class DaoUsuario {
         }
         return dtoUsuario;
     }
+    
+   public String obtenerNombreRol(int idRol) {
+    String nombreRol = null;
+    String sql = "SELECT nombre FROM tb_roles WHERE id = ?"; // ← tabla corregida
+
+    try (Connection db = MySqlConexion.getConexion();
+         PreparedStatement ps = db.prepareStatement(sql)) {
+
+        ps.setInt(1, idRol);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                nombreRol = rs.getString("nombre");
+            }
+        }
+    } catch (SQLException ex) {
+        System.out.println("ERROR al obtener rol: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+
+    return nombreRol;
+}
+
+
 }
 
     
