@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -103,19 +105,24 @@ public class TicketDAO {
     }
 }
 
-public boolean registrarHistorialCambio(int idTicket, String usuario, String descripcion, Ticket t) {
-    String sql = "INSERT INTO tb_historial_ticket (id_ticket, fecha, id_prioridad, id_status, tiempo_invertido, asignado, ultima_actualizacion) " +
-                 "VALUES (?, NOW(), ?, ?, ?, ?, ?)";
+    public boolean registrarHistorialCambio(int idTicket, int idUsuario, String descripcion, Ticket t) {
+    // YA NO NECESITAMOS BUSCAR EL ID, ¡lo recibimos directamente!
+    // La llamada a obtenerIdUsuarioPorNombre() se elimina.
+
+    String sql = "INSERT INTO tb_historial_ticket (id_ticket, id_usuario, descripcion, fecha, id_prioridad, id_status, tiempo_invertido, asignado, ultima_actualizacion) " +
+                 "VALUES (?, ?, ?, NOW(), ?, ?, ?, ?, ?)";
 
     try (Connection conn = MySqlConexion.getConexion();
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
         ps.setInt(1, idTicket);
-        ps.setInt(2, t.getIdPrioridad());
-        ps.setInt(3, t.getIdStatus());
-        ps.setString(4, t.getTiempoInvertido());
-        ps.setString(5, t.getAsignado());
-        ps.setString(6, t.getUltimaActualizacion());
+        ps.setInt(2, idUsuario); // Usamos el ID de usuario que recibimos
+        ps.setString(3, descripcion);
+        ps.setInt(4, t.getIdPrioridad());
+        ps.setInt(5, t.getIdStatus());
+        ps.setString(6, t.getTiempoInvertido());
+        ps.setString(7, t.getAsignado());
+        ps.setString(8, t.getUltimaActualizacion());
 
         return ps.executeUpdate() > 0;
 
@@ -125,5 +132,62 @@ public boolean registrarHistorialCambio(int idTicket, String usuario, String des
     }
 }
 
+
+    public int obtenerIdUsuarioPorNombre(String nombreUsuario) {
+    // CAMBIO AQUÍ: Usamos el nombre correcto de la columna (ej. id_usuario)
+    String sql = "SELECT id_usuario FROM tb_usuario WHERE nombre_usuario = ?"; 
     
+    try (Connection conn = MySqlConexion.getConexion();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        
+        ps.setString(1, nombreUsuario);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                // Y CAMBIO AQUÍ también para que coincida
+                return rs.getInt("id_usuario");
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return -1; // Retorna -1 si no se encuentra el usuario
+}
+
+    public List<Ticket> obtenerHistorialPorTicketId(int idTicket) {
+    List<Ticket> historial = new ArrayList<>();
+    
+    // La consulta une las tablas para obtener los nombres de prioridad y estado
+    String sql = "SELECT h.fecha, p.nombre AS prioridad_nombre, e.nombre AS estado_nombre, " +
+                 "h.tiempo_invertido, h.asignado, h.ultima_actualizacion, h.descripcion " +
+                 "FROM tb_historial_ticket h " +
+                 "JOIN tb_prioridades p ON h.id_prioridad = p.id " +
+                 "JOIN tb_estados e ON h.id_status = e.id " +
+                 "WHERE h.id_ticket = ? " +
+                 "ORDER BY h.fecha DESC";
+
+    try (Connection conn = com.mycompany.mesaayuda.model.MySqlConexion.getConexion();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, idTicket);
+        
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Ticket registro = new Ticket();
+                
+                registro.setFecha(rs.getString("fecha"));
+                registro.setNombrePrioridad(rs.getString("prioridad_nombre"));
+                registro.setEstado(rs.getString("estado_nombre"));
+                registro.setTiempoInvertido(rs.getString("tiempo_invertido"));
+                registro.setAsignado(rs.getString("asignado"));
+                registro.setUltimaActualizacion(rs.getString("ultima_actualizacion"));
+                registro.setDescripcion(rs.getString("descripcion"));
+
+                historial.add(registro);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return historial;
+}
 }

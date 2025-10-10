@@ -2,6 +2,7 @@ Ventanas\AbrirTicket.class
 Ventanas\RegistroIncidencias$1.class
 Ventanas\Seguimiento$2.class
 Ventanas\Historial.class
+Ventanas\Seguimiento$7.class
 com\mycompany\mesaayuda\model\MySqlConexion.class
 com\mycompany\mesaayuda\servicios\DaoUsuario.class
 com\mycompany\mesaayuda\MesaAyuda.class

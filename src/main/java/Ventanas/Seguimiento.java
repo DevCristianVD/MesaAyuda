@@ -124,6 +124,12 @@ public class Seguimiento extends javax.swing.JFrame {
 
         jLabel2.setText("Titulo: ");
 
+        Titulotxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TitulotxtActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("Descripcion:");
 
         DescripcionArea.setColumns(20);
@@ -359,43 +365,54 @@ public class Seguimiento extends javax.swing.JFrame {
 
     private void HistorialButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistorialButtonActionPerformed
     String folio = Foliotxt.getText(); 
+    
+    TicketDAO dao = new TicketDAO();
+    int idTicket = dao.obtenerIdTicketPorFolio(folio);
 
-    if (folio == null || folio.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "No se ha cargado ningún folio.");
-        return;
+    if (idTicket != -1) {
+        Historial ventanaHistorial = new Historial(null, true, idTicket);
+        ventanaHistorial.setVisible(true);
+    } else {
+        JOptionPane.showMessageDialog(this, "No se encontró el ticket con folio: " + folio);
     }
-
-    Historial historial = new Historial(this, true);
-    historial.setLocationRelativeTo(this);
-    historial.setVisible(true);
     }//GEN-LAST:event_HistorialButtonActionPerformed
 
     private void TicketButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TicketButton1ActionPerformed
-   String folio = Foliotxt.getText();
+    String folio = Foliotxt.getText();
+    String descripcionCambio = Actualizaciontxt.getText();
+    
+    if (descripcionCambio == null || descripcionCambio.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Debe agregar una descripción del cambio en el campo 'Ultima actualizacion'.", "Descripción requerida", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
     TicketDAO dao = new TicketDAO();
     int idTicket = dao.obtenerIdTicketPorFolio(folio);
 
     if (idTicket != -1) {
         Ticket actualizado = new Ticket();
         actualizado.setId(idTicket);
-        actualizado.setIdPrioridad(PrioridadBox.getSelectedIndex());
-        actualizado.setIdStatus(estadobox.getSelectedIndex());
+        actualizado.setIdPrioridad(PrioridadBox.getSelectedIndex() + 1);
+        actualizado.setIdStatus(estadobox.getSelectedIndex() + 1);
         actualizado.setTiempoInvertido(tiempotxt.getText());
         actualizado.setAsignado(asignadotxt.getText());
-        actualizado.setUltimaActualizacion(LocalDateTime.now().toString());
+        actualizado.setUltimaActualizacion(java.time.LocalDateTime.now().toString());
 
-        dao.actualizarTicket(actualizado);
-
-        String usuarioActual = SessionUsuario.getNombreUsuario(); 
-        dao.registrarHistorialCambio(idTicket, usuarioActual, "Actualización desde seguimiento", actualizado);
-
-        JOptionPane.showMessageDialog(this, "Ticket actualizado y historial registrado.");
+        boolean ticketActualizado = dao.actualizarTicket(actualizado);
         
-        this.dispose();
-        RegistroIncidencias RI=new RegistroIncidencias();
-        RI.setLocationRelativeTo(this);
-        RI.setVisible(true);
+        int idUsuarioActual = SessionUsuario.getIdUsuario();
         
+        boolean historialRegistrado = dao.registrarHistorialCambio(idTicket, idUsuarioActual, descripcionCambio, actualizado);
+
+        if (ticketActualizado && historialRegistrado) {
+            JOptionPane.showMessageDialog(this, "Ticket actualizado y cambio registrado en el historial.");
+            this.dispose();
+            RegistroIncidencias RI = new RegistroIncidencias();
+            RI.setLocationRelativeTo(this);
+            RI.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al guardar los cambios. Verifique la consola.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     } else {
         JOptionPane.showMessageDialog(this, "No se encontró el ticket con folio: " + folio);
     }
@@ -420,6 +437,10 @@ public class Seguimiento extends javax.swing.JFrame {
     private void DepartamentoBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DepartamentoBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_DepartamentoBoxActionPerformed
+
+    private void TitulotxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TitulotxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TitulotxtActionPerformed
 
     /**
      * @param args the command line arguments

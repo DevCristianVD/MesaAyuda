@@ -1,0 +1,1 @@
+SELECT * FROM tec.tb_prioridades;

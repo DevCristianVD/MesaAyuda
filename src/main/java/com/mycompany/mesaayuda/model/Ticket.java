@@ -22,6 +22,8 @@ public class Ticket {
     private String asignado;
     private String ultimaActualizacion;
     
+    private String nombrePrioridad;
+    
     public int getIdTicket() {
         return idTicket;
     }
@@ -69,7 +71,6 @@ public class Ticket {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-
 
     public int getId() {
         return id;
@@ -143,4 +144,11 @@ public class Ticket {
         this.idPrioridad = idPrioridad;
     }
     
+    public String getNombrePrioridad() {
+        return nombrePrioridad;
+    }
+
+    public void setNombrePrioridad(String nombrePrioridad) {
+        this.nombrePrioridad = nombrePrioridad;
+    }
 }

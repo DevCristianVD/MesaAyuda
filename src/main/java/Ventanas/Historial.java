@@ -1,5 +1,8 @@
 package Ventanas;
 
+import com.mycompany.mesaayuda.model.Ticket;
+import com.mycompany.mesaayuda.servicios.TicketDAO;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -9,15 +12,43 @@ import javax.swing.table.DefaultTableModel;
 public class Historial extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Historial.class.getName());
-
+    private int idTicket;
+    
     DefaultTableModel modeloTabla = new DefaultTableModel();
-    public Historial(java.awt.Frame parent, boolean modal) {
+    public Historial(java.awt.Frame parent, boolean modal, int idTicket) {
         super(parent, modal);
         initComponents();
         String[] encabezadosTabla = new String[]{"Fecha","Prioridad","Estado","Tiempo invertido","Asignado","Última actualización","Descripción"};
         modeloTabla.setColumnIdentifiers(encabezadosTabla);
         Historial.setModel(modeloTabla);
+        
+        this.idTicket = idTicket;
+        
+        cargarDatosEnTabla();
     }
+    
+    private void cargarDatosEnTabla() {
+        TicketDAO dao = new TicketDAO();
+        List<Ticket> historial = dao.obtenerHistorialPorTicketId(this.idTicket);
+
+        for (Ticket registro : historial) {
+            Object[] fila = {
+                registro.getFecha(),
+                registro.getNombrePrioridad(),
+                registro.getEstado(),
+                registro.getTiempoInvertido(),
+                registro.getAsignado(),
+                registro.getUltimaActualizacion(),
+                registro.getDescripcion()
+            };
+            modeloTabla.addRow(fila);
+        }
+
+        // Asegúrate que tu JTable en el diseñador se llame "tablaHistorial"
+        Historial.setModel(modeloTabla);
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -123,7 +154,7 @@ public class Historial extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Historial dialog = new Historial(new javax.swing.JFrame(), true);
+                Historial dialog = new Historial(new javax.swing.JFrame(), true, 0);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
