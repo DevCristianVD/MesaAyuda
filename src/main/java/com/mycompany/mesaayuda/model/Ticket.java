@@ -15,7 +15,53 @@ public class Ticket {
     private int idStatus;
     private int idPrioridad;
     private String estado;
+    
+    private int idTicket;
+    private String fecha;
+    private String tiempoInvertido;
+    private String asignado;
+    private String ultimaActualizacion;
+    
+    public int getIdTicket() {
+        return idTicket;
+    }
 
+    public void setIdTicket(int idTicket) {
+        this.idTicket = idTicket;
+    }
+    
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+    
+    public String getTiempoInvertido() {
+        return tiempoInvertido;
+    }
+
+    public void setTiempoInvertido(String tiempoInvertido) {
+        this.tiempoInvertido = tiempoInvertido;
+    }
+
+    public String getAsignado() {
+        return asignado;
+    }
+
+    public void setAsignado(String asignado) {
+        this.asignado = asignado;
+    }
+    
+    public String getUltimaActualizacion() {
+        return ultimaActualizacion;
+    }
+
+    public void setUltimaActualizacion(String ultimaActualizacion) {
+        this.ultimaActualizacion = ultimaActualizacion;
+    }
+    
     public String getEstado() {
         return estado;
     }

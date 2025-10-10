@@ -1,6 +1,10 @@
 package Ventanas;
 
+import com.mycompany.mesaayuda.model.SessionUsuario;
 import com.mycompany.mesaayuda.model.Ticket;
+import com.mycompany.mesaayuda.servicios.DaoUsuario;
+import com.mycompany.mesaayuda.servicios.DepartamentoDAO;
+import com.mycompany.mesaayuda.servicios.PrioridadDAO;
 import com.mycompany.mesaayuda.servicios.TicketDAO;
 import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
@@ -18,12 +22,33 @@ public class Seguimiento extends javax.swing.JFrame {
      */
     public Seguimiento() {
         initComponents();
+        
                
     }
     
     public Seguimiento(Ticket ticket) {
     initComponents();
-    // Aquí asignas los datos del ticket a los campos visuales
+    
+    DaoUsuario DAO = new DaoUsuario();
+        
+    Nombretxt.setText(SessionUsuario.getNombreUsuario());
+        
+    String nombreRol = DAO.obtenerNombreRol(SessionUsuario.getIdRol());
+    roltxt.setText(nombreRol != null ? nombreRol : "Sin rol asignado");
+    
+    DepartamentoDAO dao = new DepartamentoDAO();
+    dao.cargarDepartamentos(DepartamentoBox); 
+
+    String nombreDepartamento = dao.obtenerNombreDepartamento(ticket.getIdDepartamento()); 
+    DepartamentoBox.setSelectedItem(nombreDepartamento);
+    
+    PrioridadDAO priDao = new PrioridadDAO();
+    priDao.cargarPrioridades(PrioridadBox);
+
+    String nombrePrioridad = priDao.obtenerNombrePorId(ticket.getIdPrioridad());  
+    PrioridadBox.setSelectedItem(nombrePrioridad); 
+
+        
     Foliotxt.setText(ticket.getFolio());
     Titulotxt.setText(ticket.getTitulo());
     DescripcionArea.setText(ticket.getDescripcion());
@@ -49,22 +74,26 @@ public class Seguimiento extends javax.swing.JFrame {
         DescripcionArea = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        Titulotxt2 = new javax.swing.JTextField();
+        asignadotxt = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        Titulotxt3 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        Titulotxt5 = new javax.swing.JTextField();
+        tiempotxt = new javax.swing.JTextField();
         HistorialButton = new javax.swing.JButton();
         TicketButton1 = new javax.swing.JButton();
         BottonRegresar = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         Foliotxt = new javax.swing.JTextField();
-        Titulotxt6 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        estadobox = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Actualizaciontxt = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
+        Nombretxt = new javax.swing.JTextField();
+        roltxt = new javax.swing.JTextField();
+        DepartamentoBox = new javax.swing.JComboBox<>();
         PrioridadBox = new javax.swing.JComboBox<>();
-        PrioridadBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -142,17 +171,33 @@ public class Seguimiento extends javax.swing.JFrame {
 
         jLabel10.setText("Folio");
 
-        PrioridadBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alta", "Media", "Baja" }));
-        PrioridadBox.addActionListener(new java.awt.event.ActionListener() {
+        Foliotxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PrioridadBoxActionPerformed(evt);
+                FoliotxtActionPerformed(evt);
             }
         });
 
-        PrioridadBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1,Abierto", "2,Cerrado" }));
-        PrioridadBox1.addActionListener(new java.awt.event.ActionListener() {
+        estadobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1,Abierto", "2,Cerrado" }));
+        estadobox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PrioridadBox1ActionPerformed(evt);
+                estadoboxActionPerformed(evt);
+            }
+        });
+
+        Actualizaciontxt.setColumns(20);
+        Actualizaciontxt.setRows(5);
+        jScrollPane2.setViewportView(Actualizaciontxt);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/4781818_account_avatar_face_man_people_icon.png"))); // NOI18N
+        jButton1.setBorderPainted(false);
+
+        Nombretxt.setEditable(false);
+
+        roltxt.setEditable(false);
+
+        DepartamentoBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DepartamentoBoxActionPerformed(evt);
             }
         });
 
@@ -165,121 +210,146 @@ public class Seguimiento extends javax.swing.JFrame {
                 .addGap(13, 13, 13)
                 .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(EstadoboxLayout.createSequentialGroup()
-                        .addGap(48, 48, 48)
+                        .addComponent(jLabel11)
                         .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EstadoboxLayout.createSequentialGroup()
-                                .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Titulotxt6, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EstadoboxLayout.createSequentialGroup()
-                                            .addGap(107, 107, 107)
-                                            .addComponent(HistorialButton)
-                                            .addGap(120, 120, 120)
-                                            .addComponent(TicketButton1))
-                                        .addGroup(EstadoboxLayout.createSequentialGroup()
-                                            .addComponent(jLabel7)
-                                            .addGap(102, 102, 102)
-                                            .addComponent(jLabel8))))
-                                .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(EstadoboxLayout.createSequentialGroup()
-                                        .addGap(23, 23, 23)
-                                        .addComponent(jLabel9))
-                                    .addGroup(EstadoboxLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(Titulotxt5, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(EstadoboxLayout.createSequentialGroup()
+                                .addGap(155, 155, 155)
                                 .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EstadoboxLayout.createSequentialGroup()
+                                        .addComponent(Titulotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(129, 129, 129))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EstadoboxLayout.createSequentialGroup()
                                         .addComponent(jLabel3)
-                                        .addGap(203, 203, 203))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(217, 217, 217))
+                                    .addComponent(asignadotxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(EstadoboxLayout.createSequentialGroup()
-                                .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Titulotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(EstadoboxLayout.createSequentialGroup()
-                                        .addGap(93, 93, 93)
-                                        .addComponent(jLabel2)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(EstadoboxLayout.createSequentialGroup()
-                                        .addGap(34, 34, 34)
-                                        .addComponent(jLabel10))
-                                    .addComponent(Foliotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(EstadoboxLayout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EstadoboxLayout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
-                .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(BottonRegresar)
-                    .addGroup(EstadoboxLayout.createSequentialGroup()
-                        .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(PrioridadBox, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(EstadoboxLayout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(PrioridadBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(45, 45, 45)
-                                .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addComponent(Titulotxt2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Titulotxt3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(29, 29, 29))
+                                .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(EstadoboxLayout.createSequentialGroup()
+                                        .addGap(234, 234, 234)
+                                        .addComponent(jLabel2))
+                                    .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EstadoboxLayout.createSequentialGroup()
+                                            .addGap(0, 0, Short.MAX_VALUE)
+                                            .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(estadobox, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(EstadoboxLayout.createSequentialGroup()
+                                                    .addGap(28, 28, 28)
+                                                    .addComponent(jLabel4)))
+                                            .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(EstadoboxLayout.createSequentialGroup()
+                                                    .addGap(33, 33, 33)
+                                                    .addComponent(jLabel8)
+                                                    .addGap(70, 70, 70)
+                                                    .addComponent(jLabel6))
+                                                .addGroup(EstadoboxLayout.createSequentialGroup()
+                                                    .addGap(18, 18, 18)
+                                                    .addComponent(PrioridadBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGap(36, 36, 36)
+                                                    .addComponent(DepartamentoBox, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGap(25, 25, 25)
+                                            .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(EstadoboxLayout.createSequentialGroup()
+                                                    .addGap(26, 26, 26)
+                                                    .addComponent(jLabel9))
+                                                .addComponent(tiempotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(EstadoboxLayout.createSequentialGroup()
+                                            .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGroup(EstadoboxLayout.createSequentialGroup()
+                                            .addGap(116, 116, 116)
+                                            .addComponent(jLabel7)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel5)
+                                            .addGap(46, 46, 46))))))
+                        .addGap(22, 22, 22))
+                    .addGroup(EstadoboxLayout.createSequentialGroup()
+                        .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(EstadoboxLayout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(38, 38, 38)
+                                .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(roltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Nombretxt, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(EstadoboxLayout.createSequentialGroup()
+                                .addGap(375, 375, 375)
+                                .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Foliotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(EstadoboxLayout.createSequentialGroup()
+                                        .addGap(40, 40, 40)
+                                        .addComponent(jLabel10)))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(EstadoboxLayout.createSequentialGroup()
+                .addGap(168, 168, 168)
+                .addComponent(HistorialButton)
+                .addGap(112, 112, 112)
+                .addComponent(TicketButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EstadoboxLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BottonRegresar)
+                .addGap(14, 14, 14))
         );
         EstadoboxLayout.setVerticalGroup(
             EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(EstadoboxLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addGap(18, 18, 18)
                 .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(EstadoboxLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Titulotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1)
                     .addGroup(EstadoboxLayout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Foliotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Foliotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(EstadoboxLayout.createSequentialGroup()
+                        .addComponent(Nombretxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(roltxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addGap(6, 6, 6)
+                .addComponent(Titulotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(Titulotxt2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(Titulotxt3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(PrioridadBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(EstadoboxLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
                         .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel7)
+                            .addComponent(jLabel4)
                             .addComponent(jLabel8))
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel11))
-                    .addGroup(EstadoboxLayout.createSequentialGroup()
-                        .addGap(63, 63, 63)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Titulotxt6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Titulotxt5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(PrioridadBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(62, 62, 62)
+                            .addComponent(estadobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(PrioridadBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(EstadoboxLayout.createSequentialGroup()
+                        .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tiempotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DepartamentoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(asignadotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(EstadoboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(HistorialButton)
                     .addComponent(TicketButton1))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(BottonRegresar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         getContentPane().add(Estadobox, java.awt.BorderLayout.CENTER);
@@ -301,43 +371,55 @@ public class Seguimiento extends javax.swing.JFrame {
     }//GEN-LAST:event_HistorialButtonActionPerformed
 
     private void TicketButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TicketButton1ActionPerformed
-   /* String folio = Foliotxt.getText();
+   String folio = Foliotxt.getText();
     TicketDAO dao = new TicketDAO();
-        int idTicket = dao.obtenerIdTicketPorFolio(folio);
+    int idTicket = dao.obtenerIdTicketPorFolio(folio);
 
-        if (idTicket != -1) {
-    // Actualizar el ticket
-    Ticket actualizado = new Ticket();
-    actualizado.setId(idTicket);
-    actualizado.setPrioridad(PrioridadCombo.getSelectedIndex());
-    actualizado.setEstado(Estadobox.getSelectedIndex());
-    actualizado.setTiempoInvertido(TiempoTxt.getText());
-    actualizado.setAsignado(AsignadoTxt.getText());
-    actualizado.setUltimaActualizacion(LocalDateTime.now().toString());
-    dao.actualizarTicket(actualizado); // método que debes crear
+    if (idTicket != -1) {
+        Ticket actualizado = new Ticket();
+        actualizado.setId(idTicket);
+        actualizado.setIdPrioridad(PrioridadBox.getSelectedIndex());
+        actualizado.setIdStatus(estadobox.getSelectedIndex());
+        actualizado.setTiempoInvertido(tiempotxt.getText());
+        actualizado.setAsignado(asignadotxt.getText());
+        actualizado.setUltimaActualizacion(LocalDateTime.now().toString());
 
-    // Registrar historial
-    dao.registrarHistorialCambio(idTicket, usuarioActual, "Actualización desde seguimiento", actualizado);
-    
-    JOptionPane.showMessageDialog(this, "Ticket actualizado y historial registrado.");
-} else {
-    JOptionPane.showMessageDialog(this, "No se encontró el ticket con folio: " + folio);
-}
-*/
+        dao.actualizarTicket(actualizado);
+
+        String usuarioActual = SessionUsuario.getNombreUsuario(); 
+        dao.registrarHistorialCambio(idTicket, usuarioActual, "Actualización desde seguimiento", actualizado);
+
+        JOptionPane.showMessageDialog(this, "Ticket actualizado y historial registrado.");
+        
+        this.dispose();
+        RegistroIncidencias RI=new RegistroIncidencias();
+        RI.setLocationRelativeTo(this);
+        RI.setVisible(true);
+        
+    } else {
+        JOptionPane.showMessageDialog(this, "No se encontró el ticket con folio: " + folio);
+    }
     }//GEN-LAST:event_TicketButton1ActionPerformed
 
     private void BottonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BottonRegresarActionPerformed
-       
+    this.dispose();
+    RegistroIncidencias RI=new RegistroIncidencias();
+    RI.setLocationRelativeTo(this);
+    RI.setVisible(true);
         
     }//GEN-LAST:event_BottonRegresarActionPerformed
 
-    private void PrioridadBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrioridadBoxActionPerformed
+    private void estadoboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estadoboxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_PrioridadBoxActionPerformed
+    }//GEN-LAST:event_estadoboxActionPerformed
 
-    private void PrioridadBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrioridadBox1ActionPerformed
+    private void FoliotxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FoliotxtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_PrioridadBox1ActionPerformed
+    }//GEN-LAST:event_FoliotxtActionPerformed
+
+    private void DepartamentoBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DepartamentoBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DepartamentoBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -365,19 +447,20 @@ public class Seguimiento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea Actualizaciontxt;
     private javax.swing.JButton BottonRegresar;
+    private javax.swing.JComboBox<String> DepartamentoBox;
     private javax.swing.JTextArea DescripcionArea;
     private javax.swing.JPanel Estadobox;
     private javax.swing.JTextField Foliotxt;
     private javax.swing.JButton HistorialButton;
+    private javax.swing.JTextField Nombretxt;
     private javax.swing.JComboBox<String> PrioridadBox;
-    private javax.swing.JComboBox<String> PrioridadBox1;
     private javax.swing.JButton TicketButton1;
     private javax.swing.JTextField Titulotxt;
-    private javax.swing.JTextField Titulotxt2;
-    private javax.swing.JTextField Titulotxt3;
-    private javax.swing.JTextField Titulotxt5;
-    private javax.swing.JTextField Titulotxt6;
+    private javax.swing.JTextField asignadotxt;
+    private javax.swing.JComboBox<String> estadobox;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -391,5 +474,8 @@ public class Seguimiento extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField roltxt;
+    private javax.swing.JTextField tiempotxt;
     // End of variables declaration//GEN-END:variables
 }

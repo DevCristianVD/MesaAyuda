@@ -48,4 +48,24 @@ public class PrioridadDAO {
     return -1; // Si no encuentra nada
 }
 
+    public String obtenerNombrePorId(int idPrioridad) {
+    String nombre = null;
+    String sql = "SELECT nombre FROM tb_prioridades WHERE id = ?";
+
+    try (Connection conn = MySqlConexion.getConexion();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, idPrioridad);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                nombre = rs.getString("nombre");
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return nombre;
+}
+
 }

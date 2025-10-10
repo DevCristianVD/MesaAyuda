@@ -27,7 +27,7 @@ public class RegistroIncidencias extends javax.swing.JFrame {
         String nombreRol = dao.obtenerNombreRol(SessionUsuario.getIdRol());
         roltxt.setText(nombreRol != null ? nombreRol : "Sin rol asignado");
         
-        String[] encabezadosTabla = new String[]{"Folio", "Departamento", "Prioridad", "Status"};
+        String[] encabezadosTabla = new String[]{"Folio","Titulo", "Departamento", "Prioridad", "Status"};
         modeloTabla.setColumnIdentifiers(encabezadosTabla);
         TablaTickets.setModel(modeloTabla);
         
@@ -37,11 +37,12 @@ public class RegistroIncidencias extends javax.swing.JFrame {
     private void cargarTickets() {//Solo carga los tickets del usuario
     modeloTabla.setRowCount(0);
 
-        String sql = "SELECT t.folio, d.nombre AS departamento, p.nombre AS prioridad, e.nombre AS estado " +
-                 "FROM tb_ticket t " +
-                 "JOIN tb_departamento d ON t.id_departamento = d.id " +
-                 "JOIN tb_prioridades p ON t.id_prioridad = p.id " +
-                 "JOIN tb_estados e ON t.id_status = e.id";
+        String sql = "SELECT t.folio, t.titulo, d.nombre AS departamento, p.nombre AS prioridad, e.nombre AS estado " +
+             "FROM tb_ticket t " +
+             "JOIN tb_departamento d ON t.id_departamento = d.id " +
+             "JOIN tb_prioridades p ON t.id_prioridad = p.id " +
+             "JOIN tb_estados e ON t.id_status = e.id";
+
 
     try (java.sql.Connection conn = com.mycompany.mesaayuda.model.MySqlConexion.getConexion();
          java.sql.PreparedStatement ps = conn.prepareStatement(sql);
@@ -49,12 +50,14 @@ public class RegistroIncidencias extends javax.swing.JFrame {
 
         while (rs.next()) {
             Object[] fila = {
-                rs.getString("folio"),
-                rs.getString("departamento"),
-                rs.getString("prioridad"),
-                rs.getString("estado")
+            rs.getString("folio"),
+            rs.getString("titulo"),       // ← ahora sí se carga el título
+            rs.getString("departamento"),
+            rs.getString("prioridad"),
+            rs.getString("estado")
             };
             modeloTabla.addRow(fila);
+
         }
 
     } catch (java.sql.SQLException e) {

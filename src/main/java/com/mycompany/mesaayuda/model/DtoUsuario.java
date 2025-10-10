@@ -5,23 +5,28 @@ package com.mycompany.mesaayuda.model;
  * @author demo_
  */
 public class DtoUsuario {
-   String nombre;
-   int id;
-   private int idRol;
+    private int id;
+    private int idRol;
+    private String nombre;
+    private String apellidoPaterno;
+    private String usuario;
 
-  
-   public int getId() {
+    public int getId() {
         return id;
     }
-   
-   public int getIdRol() {
-    return idRol;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getIdRol() {
+        return idRol;
     }
 
     public void setIdRol(int idRol) {
-    this.idRol = idRol;
+        this.idRol = idRol;
     }
-   
+
     public String getNombre() {
         return nombre;
     }
@@ -31,29 +36,28 @@ public class DtoUsuario {
     }
 
     public String getApellidoPaterno() {
-        return ApellidoPaterno;
+        return apellidoPaterno;
     }
 
-    public void setApellidoPaterno(String ApellidoPaterno) {
-        this.ApellidoPaterno = ApellidoPaterno;
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
     }
 
     public String getUsuario() {
-        return Usuario;
+        return usuario;
     }
 
-    public void setUsuario(String Usuario) {
-        this.Usuario = Usuario;
-    }
-    
-    public void setId(int id) {
-        this.id = id;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     @Override
     public String toString() {
-        return "DtoUsuario{" + "nombre=" + nombre + ", ApellidoPaterno=" + ApellidoPaterno + ", Usuario=" + Usuario + '}';
+        return "DtoUsuario{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", apellidoPaterno='" + apellidoPaterno + '\'' +
+                ", usuario='" + usuario + '\'' +
+                '}';
     }
-    String ApellidoPaterno;
-    String Usuario;
 }

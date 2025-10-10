@@ -129,7 +129,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LogbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogbuttonActionPerformed
-     String usuario = usuariotxt.getText();
+    String usuario = usuariotxt.getText();
     String password = new String(passwordtxt.getPassword());
 
     var dao = new DaoUsuario();
@@ -140,8 +140,9 @@ public class Login extends javax.swing.JFrame {
         SessionUsuario.iniciarSesion(usuarioObj.getId(), usuarioObj.getNombre(), usuarioObj.getIdRol());
 
         JOptionPane.showMessageDialog(this, "Bienvenido " + usuarioObj.getNombre());
-        this.dispose();
+        System.out.println("Login exitoso. ID del usuario: " + usuarioObj.getId());
 
+        this.dispose();
         RegistroIncidencias RI = new RegistroIncidencias();
         RI.setLocationRelativeTo(this);
         RI.setVisible(true);

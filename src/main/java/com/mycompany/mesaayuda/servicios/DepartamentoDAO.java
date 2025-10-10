@@ -30,6 +30,27 @@ public class DepartamentoDAO {
             e.printStackTrace();
         }
     }
+     public String obtenerNombreDepartamento(int idDepartamento) {
+    String nombre = null;
+    String sql = "SELECT nombre FROM tb_departamento WHERE id = ?";
+
+    try (Connection conn = MySqlConexion.getConexion();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, idDepartamento);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                nombre = rs.getString("nombre");
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return nombre;
+}
+
      
      public int obtenerIdPorNombre(String nombre) {
     String sql = "SELECT id FROM tb_departamento WHERE nombre = ?";

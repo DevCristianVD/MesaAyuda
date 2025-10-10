@@ -23,6 +23,8 @@ com\mycompany\mesaayuda\model\DtoUsuario.class
 com\mycompany\mesaayuda\servicios\PrioridadDAO.class
 Ventanas\RegistroIncidencias$2.class
 Ventanas\Seguimiento$1.class
+Ventanas\AbrirTicket$5.class
+Ventanas\Seguimiento$6.class
 com\mycompany\mesaayuda\servicios\DepartamentoDAO.class
 com\mycompany\mesaayuda\servicios\TicketDAO.class
 com\mycompany\mesaayuda\model\Departamento.class

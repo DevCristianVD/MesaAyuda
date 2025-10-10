@@ -1,6 +1,8 @@
 
 package Ventanas;
 
+import com.mycompany.mesaayuda.model.SessionUsuario;
+import com.mycompany.mesaayuda.servicios.DaoUsuario;
 import com.mycompany.mesaayuda.servicios.DepartamentoDAO;
 import com.mycompany.mesaayuda.servicios.PrioridadDAO;
 import com.mycompany.mesaayuda.servicios.TicketDAO;
@@ -18,6 +20,12 @@ public class AbrirTicket extends javax.swing.JFrame {
      */
     public AbrirTicket() {
         initComponents();
+        Nombretxt.setText(SessionUsuario.getNombreUsuario());
+
+        DaoUsuario Dao = new DaoUsuario();
+        String nombreRol = Dao.obtenerNombreRol(SessionUsuario.getIdRol());
+        roltxt.setText(nombreRol != null ? nombreRol : "Sin rol asignado");
+    
         DepartamentoDAO dao = new DepartamentoDAO();
         dao.cargarDepartamentos(DepartamentoBox);
         
@@ -48,6 +56,9 @@ public class AbrirTicket extends javax.swing.JFrame {
         DepartamentoBox = new javax.swing.JComboBox<>();
         PrioridadBox = new javax.swing.JComboBox<>();
         BottonRegresar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        Nombretxt = new javax.swing.JTextField();
+        roltxt = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,7 +114,6 @@ public class AbrirTicket extends javax.swing.JFrame {
             }
         });
 
-        PrioridadBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alta", "Media", "Baja" }));
         PrioridadBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PrioridadBoxActionPerformed(evt);
@@ -119,46 +129,73 @@ public class AbrirTicket extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/4781818_account_avatar_face_man_people_icon.png"))); // NOI18N
+        jButton1.setBorderPainted(false);
+
+        Nombretxt.setEditable(false);
+        Nombretxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NombretxtActionPerformed(evt);
+            }
+        });
+
+        roltxt.setEditable(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(17, 17, 17)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(TicketButton)
-                        .addGap(94, 94, 94)
-                        .addComponent(BottonRegresar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(205, 205, 205)
-                                .addComponent(jLabel3))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(PrioridadBox, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(DepartamentoBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
+                            .addComponent(Nombretxt, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(roltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(BottonRegresar)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel5)
                                     .addGap(18, 18, 18)
-                                    .addComponent(Titulotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(26, Short.MAX_VALUE))
+                                    .addComponent(PrioridadBox, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(DepartamentoBox, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(Titulotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(32, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(223, 223, 223))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(TicketButton)
+                        .addGap(206, 206, 206))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(Nombretxt, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(roltxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(Titulotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -175,10 +212,10 @@ public class AbrirTicket extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(TicketButton)
-                    .addComponent(BottonRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addComponent(TicketButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(BottonRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -187,7 +224,7 @@ public class AbrirTicket extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void TicketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TicketButtonActionPerformed
-   String titulo = Titulotxt.getText();
+    String titulo = Titulotxt.getText();
     String departamentoNombre = (String) DepartamentoBox.getSelectedItem();
     String prioridadNombre = (String) PrioridadBox.getSelectedItem();
     String descripcion = DescripcionArea.getText();
@@ -197,32 +234,28 @@ public class AbrirTicket extends javax.swing.JFrame {
         return;
     }
 
-    // Obtener ID del departamento
     DepartamentoDAO depDao = new DepartamentoDAO();
     int idDepartamento = depDao.obtenerIdPorNombre(departamentoNombre);
 
-    // Obtener ID de la prioridad
     PrioridadDAO priDao = new PrioridadDAO();
     int idPrioridad = priDao.obtenerIdPorNombre(prioridadNombre);
 
-    if (idDepartamento == -1) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Error: no se encontró el departamento.");
+    if (idDepartamento == -1 || idPrioridad == -1) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Error al obtener IDs de departamento o prioridad.");
         return;
     }
 
-    if (idPrioridad == -1) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Error: no se encontró la prioridad.");
-        return;
-    }
+    int idUsuario = SessionUsuario.getIdUsuario(); // ← Aquí tomas el ID del usuario actual
 
-    // Guardar ticket
     TicketDAO ticketDao = new TicketDAO();
-    boolean exito = ticketDao.registrarTicket(titulo, idDepartamento, idPrioridad, descripcion);
+    boolean exito = ticketDao.registrarTicket(titulo, idDepartamento, idPrioridad, descripcion, idUsuario);
+    System.out.println("Insertando ticket con id_usuario = " + idUsuario);
+
 
     if (exito) {
         javax.swing.JOptionPane.showMessageDialog(this, "✅ Ticket registrado correctamente.");
         this.dispose();
-        RegistroIncidencias RI=new RegistroIncidencias();
+        RegistroIncidencias RI = new RegistroIncidencias();
         RI.setLocationRelativeTo(this);
         RI.setVisible(true);
     } else {
@@ -244,6 +277,10 @@ public class AbrirTicket extends javax.swing.JFrame {
         RI.setLocationRelativeTo(this);
         RI.setVisible(true);
     }//GEN-LAST:event_BottonRegresarActionPerformed
+
+    private void NombretxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombretxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NombretxtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -274,9 +311,11 @@ public class AbrirTicket extends javax.swing.JFrame {
     private javax.swing.JButton BottonRegresar;
     private javax.swing.JComboBox<String> DepartamentoBox;
     private javax.swing.JTextArea DescripcionArea;
+    private javax.swing.JTextField Nombretxt;
     private javax.swing.JComboBox<String> PrioridadBox;
     private javax.swing.JButton TicketButton;
     private javax.swing.JTextField Titulotxt;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -285,5 +324,6 @@ public class AbrirTicket extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField roltxt;
     // End of variables declaration//GEN-END:variables
 }
